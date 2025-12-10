@@ -51,18 +51,21 @@ CreatorLens is a comprehensive Streamlit-based application that uses OpenAI's CL
 ### Setup
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/priyam-02/creatorlens.git
    cd creatorlens
    ```
 
 2. **Create a virtual environment (recommended)**
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies**
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -74,14 +77,17 @@ CreatorLens is a comprehensive Streamlit-based application that uses OpenAI's CL
 ## Quick Start
 
 1. **Launch the application**
+
    ```bash
    streamlit run creatorlens.py
    ```
 
 2. **Access the web interface**
+
    - Open your browser to `http://localhost:8501`
 
 3. **Basic workflow**
+
    - **Sidebar**: Enter brand requirements (description, preferred style, pacing, content category)
    - **Upload videos**: Add creator videos to build your database
    - **View matches**: See ranked creator matches with detailed analysis
@@ -98,12 +104,14 @@ CreatorLens is a comprehensive Streamlit-based application that uses OpenAI's CL
 CreatorLens is built as a single-file Streamlit application with four main architectural layers:
 
 ### 1. Core Matching Engine
+
 - **CreatorProfile**: Dataclass storing creator metadata, embeddings, and analytics
 - **CreatorDatabase**: FAISS-based vector database for similarity search
 - **BrandBrief**: Converts brand requirements into CLIP embeddings
 - **Matching function**: Multi-factor scoring combining CLIP similarity, style, pacing, and content category
 
 ### 2. Video Processing Pipeline
+
 - **CLIP-based style analysis**: Text-image similarity across 8 semantic categories
 - **Embedding-based pacing**: Cosine distance between consecutive frames
 - **Hook detection**: Analyzes first 3-5 seconds for 7 hook elements
@@ -111,12 +119,14 @@ CreatorLens is built as a single-file Streamlit application with four main archi
 - **Engagement prediction**: Weighted scoring across 6 factors
 
 ### 3. Visualization Layer
+
 - Radar charts for multi-dimensional scoring
 - Engagement gauge charts
 - Style distribution bar charts
 - Database statistics and analytics
 
 ### 4. Streamlit UI
+
 - Interactive sidebar for brand requirements
 - Video upload with progress tracking
 - Rich creator profile cards with expandable details
@@ -149,6 +159,7 @@ Results are ranked and displayed with detailed breakdowns of each scoring compon
 ### Video Analysis
 
 #### Style Detection
+
 - Uses CLIP's multimodal understanding to classify videos across 8 categories:
   - Bright and colorful
   - Dark and moody
@@ -161,6 +172,7 @@ Results are ranked and displayed with detailed breakdowns of each scoring compon
 - Returns ranked scores for ALL styles, not just a single category
 
 #### Pacing Analysis
+
 - Embedding-based approach using cosine distance between consecutive frames
 - Categories: Fast, Moderate, Slow, Dynamic, Static
 - Thresholds:
@@ -175,6 +187,7 @@ Results are ranked and displayed with detailed breakdowns of each scoring compon
 Analyzes the critical first 3-5 seconds of video for effectiveness:
 
 - **Elements detected** (7 types):
+
   - Face presence
   - Text overlays
   - Bright colors
@@ -194,6 +207,7 @@ Analyzes the critical first 3-5 seconds of video for effectiveness:
 Identifies call-to-action patterns in the last 5 seconds:
 
 - **CTA types detected** (7 patterns):
+
   - Text/caption CTAs
   - Hand gestures (pointing, thumbs up)
   - Subscribe buttons
@@ -209,14 +223,14 @@ Identifies call-to-action patterns in the last 5 seconds:
 
 Multi-factor heuristic model combining:
 
-| Factor | Weight | Description |
-|--------|--------|-------------|
-| Hook Strength | 30% | Effectiveness of opening 3-5 seconds |
-| CTA Presence | 15% | Clear call-to-action in ending |
-| Pacing Variety | 20% | Optimal transition count (3-15) |
-| Style Consistency | 15% | Primary style dominance |
-| Optimal Length | 10% | Duration appropriate for pacing |
-| Transition Quality | 10% | Smooth, dynamic changes |
+| Factor             | Weight | Description                          |
+| ------------------ | ------ | ------------------------------------ |
+| Hook Strength      | 30%    | Effectiveness of opening 3-5 seconds |
+| CTA Presence       | 15%    | Clear call-to-action in ending       |
+| Pacing Variety     | 20%    | Optimal transition count (3-15)      |
+| Style Consistency  | 15%    | Primary style dominance              |
+| Optimal Length     | 10%    | Duration appropriate for pacing      |
+| Transition Quality | 10%    | Smooth, dynamic changes              |
 
 **Output**: Score 0-1, categorized as Excellent/Good/Fair/Poor with strengths/weaknesses breakdown
 
@@ -252,16 +266,19 @@ final_score = (clip_similarity × 0.45) + (style_match × 0.30) + (pacing_match 
 ### Component Scoring
 
 **Style Matching**:
+
 - 1.0 = Primary style match
 - 0.7 = Secondary style match
 - 0.0 = No match
 
 **Pacing Matching**:
+
 - 1.0 = Exact match (fast/fast, moderate/moderate, slow/slow)
 - 0.5 = Neutral/unspecified
 - 0.0 = Opposite (fast/slow mismatch)
 
 **Content Category Matching**:
+
 - 1.0 = Exact category match
 - 0.5 = No category specified (neutral)
 - 0.0 = Category mismatch
@@ -367,10 +384,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 creatorlens/
 ├── creatorlens.py              # Main application (2,251 lines)
 ├── requirements.txt            # Python dependencies
-├── CLAUDE.md                   # Detailed developer documentation
 ├── README.md                   # This file
-├── Creator Lens Colab Complete.ipynb  # Style/pacing methodology
-├── LLaVA Advanced Analysis.ipynb      # Hook/CTA/engagement methodology
 ├── .gitignore                  # Git ignore rules
 └── .git/                       # Git repository
 ```
@@ -383,10 +397,6 @@ creatorlens/
   - Lines 1020-1211: Visualization functions
   - Lines 1212-2250+: Streamlit UI and state management
 
-- **CLAUDE.md**: Comprehensive developer guide with implementation details, architecture overview, and scoring methodology
-
-- **Jupyter Notebooks**: Reference implementations showing analysis techniques and methodology development
-
 ---
 
 ## Development
@@ -394,19 +404,11 @@ creatorlens/
 ### Code Organization Philosophy
 
 CreatorLens is intentionally built as a **single-file application** for:
+
 - Rapid development and prototyping
 - Easy deployment and distribution
 - Simplified dependency management
 - Straightforward debugging
-
-### Contributing
-
-For detailed implementation guidance, see [CLAUDE.md](CLAUDE.md), which includes:
-- In-depth architecture explanation
-- Function-by-function breakdown
-- Scoring algorithm details
-- Data schemas
-- Implementation best practices
 
 ### Running Tests
 
@@ -468,8 +470,7 @@ See [requirements.txt](requirements.txt) for complete list. Key dependencies:
 ## Contact & Support
 
 - **Repository**: [https://github.com/priyam-02/creatorlens](https://github.com/priyam-02/creatorlens)
-- **Issues**: [GitHub Issues](https://github.com/priyam-02/creatorlens/issues)
 
 ---
 
-**Built with ❤️ using OpenAI CLIP and Streamlit**
+**Built using OpenAI CLIP and Streamlit**
